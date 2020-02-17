@@ -24,6 +24,7 @@ public class Side : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D col)
     {
+        Debug.Log("SIDE collision");
         if (col.gameObject.tag == "Ball")
         {
             Ball ball = col.GetComponent<Ball>();

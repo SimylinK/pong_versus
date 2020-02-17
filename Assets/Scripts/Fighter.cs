@@ -11,7 +11,7 @@ public class Fighter : MonoBehaviour {
     private State state;
     private int recoveryTime;
     private Vector2 pushBack;
-    
+
 
     public float speed = 0.1f;
 
@@ -20,13 +20,20 @@ public class Fighter : MonoBehaviour {
     public KeyCode rightKey = KeyCode.RightArrow;
     public KeyCode upKey = KeyCode.UpArrow;
     public KeyCode downKey = KeyCode.DownArrow;
-    public KeyCode hadokenKey = KeyCode.P;
+    public KeyCode action1Key = KeyCode.P;
+    public KeyCode action2Key = KeyCode.L;
+
 
     public GameObject fireBall;
+    public GameObject punch;
 
     public Sprite normal;
     public Sprite recovery;
     public Sprite ko;
+
+    private ActionPlayer action1;
+    private ActionPlayer action2;
+
 
     // Use this for initialization
     void Start () {
@@ -35,26 +42,32 @@ public class Fighter : MonoBehaviour {
         recoveryTime = 0;
 
         this.GetComponent<SpriteRenderer>().sprite = normal;
+
+        // Action initialization
+        action1 = new FireBallAction(rb, fireBall);
+        action2 = new PunchAction(rb, punch);
     }
 
     void Update()
     {
         if (state != State.Normal) { return; }
 
-        if (Input.GetKey(hadokenKey))
+        if (Input.GetKey(action1Key))
         {
-            float spawnX = 1.1f;
-            if (player == 2) { spawnX = -1; }
-            Vector2 fireballSpawn = new Vector2(rb.position.x + spawnX, rb.position.y);
-
-            Instantiate(fireBall, fireballSpawn, Quaternion.identity);
-            state = State.Recovery;
-            recoveryTime = 20;
-
-            this.GetComponent<SpriteRenderer>().sprite = recovery;
-
+            useAction(action1);
         }
 
+        if (Input.GetKey(action2Key))
+        {
+            useAction(action2);
+        }
+    }
+
+    private void useAction(ActionPlayer action) {
+            int recoveryRet = action.use();
+            state = State.Recovery;
+            recoveryTime = recoveryRet;
+            this.GetComponent<SpriteRenderer>().sprite = recovery;
     }
 
     // Update is called once per frame
@@ -101,9 +114,28 @@ public class Fighter : MonoBehaviour {
 
     public void hit(Vector2 pushBack, int recoveryTime)
     {
+        Debug.Log("HIT");
+
+        //rb.isKinematic = false;
         state = State.Ko;
         this.GetComponent<SpriteRenderer>().sprite = ko;
         this.pushBack = pushBack;
         this.recoveryTime = recoveryTime;
+    }
+
+    /*public void OnTriggerEnter2D(Collider2D col) {
+      if (col.gameObject.tag == "Ball")
+      {
+          //TODO : impact change with ball velocity
+          this.hit(new Vector2(0,0), 10);
+      }
+    }*/
+
+    public void OnTriggerStay2D(Collider2D col) {
+        if (col.gameObject.tag == "Ball")
+      {
+          //TODO : impact change with ball velocity
+          this.hit(new Vector2(0,0), 10);
+      }
     }
 }
