@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3d2735dc5cf49d3a07fc848916889c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  impactCenter: {fileID: 1825307647436814}
   power: 1
   duration: 20
   durationPushBack: 100

@@ -50,7 +50,7 @@ public class Punch : MonoBehaviour {
         {
             Vector2 pushBack = new Vector2(power * Time.deltaTime, power * Time.deltaTime);
 
-            Fighter player = col.GetComponent<Fighter>();
+            Character player = col.GetComponent<Character>();
             player.hit(pushBack, durationPushBack);
 
             Destroy(gameObject);

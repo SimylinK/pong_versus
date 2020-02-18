@@ -53,7 +53,7 @@ public class FireBall : MonoBehaviour {
         {
             Vector2 pushBack = new Vector2(speedX * power * Time.deltaTime, speedY * power * Time.deltaTime);
 
-            Fighter player = col.GetComponent<Fighter>();
+            Character player = col.GetComponent<Character>();
             player.hit(pushBack, durationPushBack);
 
             Destroy(gameObject);

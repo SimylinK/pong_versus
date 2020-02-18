@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class LifeSide : MonoBehaviour {
 
+    public CharacterSide side;
+    public GameSystem gameSystem;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -18,8 +21,7 @@ public class LifeSide : MonoBehaviour {
     {
         if (col.gameObject.tag == "Ball")
         {
-            Debug.Log("FIN");
-
+            gameSystem.endGame(side);
         }
     }
 }
