@@ -20,9 +20,6 @@ public class Ball : MonoBehaviour {
         position.x -= speedX * Time.deltaTime;
         position.y -= speedY * Time.deltaTime;
         this.transform.position = position;
-
-        Debug.Log("Ball velocity : " + rb.velocity);
-
     }
 
     public Vector2 getVelocity()

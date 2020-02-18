@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class Punch : MonoBehaviour {
 
-	public float speedX = 1;
-    public float speedY = 0;
+    public GameObject impactCenter;
+
     public float power = 10;
     public int duration = 20;
     public int durationPushBack = 100;
-
-    private Rigidbody2D rb;
 
     // Use this for initialization
     void Start()
@@ -28,12 +26,21 @@ public class Punch : MonoBehaviour {
     {
         if (col.gameObject.tag == "Ball")
         {
-            Debug.Log("Punch touche balle");
+            Vector2 ballPosition = col.gameObject.transform.position;
+            Vector2 fireballPosition = impactCenter.transform.position;
+
+            float xDistance = Mathf.Abs(ballPosition.x - fireballPosition.x);
+            float yDistance = Mathf.Abs(ballPosition.y - fireballPosition.y);
+            float directionX = Mathf.Sign(ballPosition.x - fireballPosition.x);
+            float directionY = Mathf.Sign(ballPosition.y - fireballPosition.y);
+
+            float xPercentage = (xDistance) / (xDistance + yDistance);
+            float yPercentage = (yDistance) / (xDistance + yDistance);
 
             Ball ball = col.GetComponent<Ball>();
             Vector2 velocity = ball.getVelocity();
-            velocity.x += speedX * power;
-            velocity.y += speedY * power;
+            velocity.x += directionX * xPercentage * power;
+            velocity.y += directionY * yPercentage * power;
             ball.setVelocity(velocity);
 
             Destroy(gameObject);
@@ -41,7 +48,7 @@ public class Punch : MonoBehaviour {
 
         if (col.gameObject.tag == "Player")
         {
-            Vector2 pushBack = new Vector2(speedX * power * Time.deltaTime, speedY * power * Time.deltaTime);
+            Vector2 pushBack = new Vector2(power * Time.deltaTime, power * Time.deltaTime);
 
             Fighter player = col.GetComponent<Fighter>();
             player.hit(pushBack, durationPushBack);

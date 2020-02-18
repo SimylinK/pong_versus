@@ -13,4 +13,8 @@ public class PlayerCreator : MonoBehaviour {
 	void Update () {
 		
 	}
+
+	public void createUser() {
+		
+	}
 }

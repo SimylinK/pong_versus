@@ -2,20 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CharacterSide {Left, Right}
 
-public class Fighter : MonoBehaviour {
 
-    private Rigidbody2D rb;
+public class Character : MonoBehaviour {
+
+	private Rigidbody2D rb;
+
+    public CharacterSide side;
 
     enum State { Normal, Recovery, Ko };
-    private State state;
+	private State state;
+    public Sprite normal;
+    public Sprite recovery;
+    public Sprite ko;
+
     private int recoveryTime;
     private Vector2 pushBack;
 
-
-    public float speed = 0.1f;
-
-    public int player = 1;
     public KeyCode leftKey = KeyCode.LeftArrow;
     public KeyCode rightKey = KeyCode.RightArrow;
     public KeyCode upKey = KeyCode.UpArrow;
@@ -23,39 +27,29 @@ public class Fighter : MonoBehaviour {
     public KeyCode action1Key = KeyCode.P;
     public KeyCode action2Key = KeyCode.L;
 
-
-    public GameObject fireBall;
-    public GameObject punch;
-
-    public Sprite normal;
-    public Sprite recovery;
-    public Sprite ko;
-
-    private ActionPlayer action1;
-    private ActionPlayer action2;
-
-    public Fighter(ActionPlayer action1, ActionPlayer action2) {
-        this.action1 = action1;
-        this.action2 = action2;
-    }
-
+    public float speed;
+    public ActionPlayer action1;
+    public ActionPlayer action2;
 
     // Use this for initialization
-    void Start () {
+    public void init() {
         rb = GetComponent<Rigidbody2D>();
         state = State.Normal;
         recoveryTime = 0;
-
         this.GetComponent<SpriteRenderer>().sprite = normal;
+        Debug.Log("SIDE : " + side);
+        if (side == CharacterSide.Right){
+            Debug.Log("FLIP");
+            this.GetComponent<SpriteRenderer>().flipX = true;
+        }
 
-        // Action initialization
-        action1 = new FireBallAction(20, fireBall, 1.1f, 5, 5);
-        action2 = new PunchAction(20, punch, 1.1f, 10);
     }
+
 
     void Update()
     {
         if (state != State.Normal) { return; }
+
 
         if (Input.GetKey(action1Key))
         {
@@ -69,8 +63,15 @@ public class Fighter : MonoBehaviour {
     }
 
     private void useAction(ActionPlayer action) {
-            action.useAction();
+        action.useAction();
     }
+
+    public void startRecovery(int recoveryTime) {
+        state = State.Recovery;
+        this.recoveryTime = recoveryTime;
+        this.GetComponent<SpriteRenderer>().sprite = recovery;
+    }
+
 
     // Update is called once per frame
     void FixedUpdate () {

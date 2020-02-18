@@ -5,29 +5,25 @@ using UnityEngine;
 public class PunchAction : ActionPlayer {
 
     public GameObject punchPrefab;
-    public int player = 1;
-    public float speedX = 1;
-    public float speedY = 0;
-    public float power = 1;
-    public int durationPushBack = 100;
-
-    private Rigidbody2D rb;
+    public float spawnX;
+    public float power;
+    //public int durationPushBack = 100;
 
     public GameObject fireBall;
 
-    public PunchAction(Rigidbody2D rb, GameObject punchPrefab) {
-        this.rb = rb;
+    public PunchAction(int recoveryTime, GameObject punchPrefab, float spawnX, float power) 
+            : base(recoveryTime) {
         this.punchPrefab = punchPrefab;
+        this.spawnX = spawnX;
+        this.power = power;
     }
 
-	// return recovery time
-    public override int use() {
-        float spawnX = 1.1f;
-        if (player == 2) { spawnX = -1.1f; }
+    public override void use() {
+        Rigidbody2D rb = character.gameObject.GetComponent<Rigidbody2D>();
         Vector2 punchSpawn = new Vector2(rb.position.x + spawnX, rb.position.y);
 
-        GameObject.Instantiate(punchPrefab, punchSpawn, Quaternion.identity);
-        
-		return 20;
+        GameObject punchCreated = GameObject.Instantiate(punchPrefab, punchSpawn, Quaternion.identity);
+        Punch punch = punchCreated.GetComponent<Punch>();
+        punch.power = power;
     } 
 }

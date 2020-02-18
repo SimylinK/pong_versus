@@ -6,38 +6,29 @@ public class FireBallAction : ActionPlayer {
 
 
     public GameObject fireBallPrefab;
-    public int player = 1;
-    public float speedX = 1;
-    public float speedY = 0;
-    public float power = 1;
-    public int durationPushBack = 100;
+    public float spawnX;
+    public float speedX;
+    public float power;
+    //public int durationPushBack = 100;
 
-    private Rigidbody2D rb;
-
-    public GameObject fireBall;
-
-    public FireBallAction(Rigidbody2D rb, GameObject fireBallPrefab) {
-        this.rb = rb;
+    public FireBallAction(int recoveryTime, GameObject fireBallPrefab, float spawnX, float speedX, float power) 
+            : base(recoveryTime) {
         this.fireBallPrefab = fireBallPrefab;
-
-        /*fireBallPrefab = Resources.Load<GameObject>("Prefabs/fire_ball");
-        if (fireBallPrefab == null) {
-            Debug.Log ("Error while loading prefab fire_ball");
-        }*/
+        this.spawnX = spawnX;
+        this.speedX = speedX;
+        this.power = power;
     }
 
 	// return recovery time
-    public override int use() {
-        float spawnX = 1.1f;
-        if (player == 2) { spawnX = -1.1f; }
+    public override void use() {
+        Rigidbody2D rb = character.gameObject.GetComponent<Rigidbody2D>();
         Vector2 fireballSpawn = new Vector2(rb.position.x + spawnX, rb.position.y);
 
-        GameObject.Instantiate(fireBallPrefab, fireballSpawn, Quaternion.identity);
-        
-		return 20;
-		//state = State.Recovery;
-        //recoveryTime = 20;
+        GameObject fireBallCreated = GameObject.Instantiate(fireBallPrefab, fireballSpawn, Quaternion.identity);
+        FireBall fireBall = fireBallCreated.GetComponent<FireBall>();
+        fireBall.speedX = speedX;
+        fireBall.speedY = 0;
+        fireBall.power = power;
+    }
 
-        //this.GetComponent<SpriteRenderer>().sprite = recovery;
-    } 
 }
