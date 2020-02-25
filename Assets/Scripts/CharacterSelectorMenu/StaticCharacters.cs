@@ -10,13 +10,14 @@ public static class StaticCharacters {
 	public static void setAttributes(CharacterAttributes attributes, Character character) {
 		character.side = attributes.side;
 		character.speed = attributes.speed;
-		character.action1 = attributes.action1;
-		character.action2 = attributes.action2;
+		character.actions = attributes.actions;
 		character.normal = attributes.normal;
         character.recovery = attributes.recovery;
         character.ko = attributes.ko;
 
-		character.action1.character = character;
-		character.action2.character = character;
+		foreach (ActionPlayer action in character.actions) {
+			action.character = character;
+		}
+
 	}
 }

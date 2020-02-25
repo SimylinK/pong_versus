@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireBallAction : ActionPlayer {
+public class FireBallAction : ActionPress {
 
 
     public GameObject fireBallPrefab;
@@ -11,15 +11,14 @@ public class FireBallAction : ActionPlayer {
     public float power;
     //public int durationPushBack = 100;
 
-    public FireBallAction(int recoveryTime, GameObject fireBallPrefab, float spawnX, float speedX, float power) 
-            : base(recoveryTime) {
+    public FireBallAction(KeyCode actionKey, int recoveryTime, GameObject fireBallPrefab, float spawnX, float speedX, float power) 
+            : base(actionKey, recoveryTime) {
         this.fireBallPrefab = fireBallPrefab;
         this.spawnX = spawnX;
         this.speedX = speedX;
         this.power = power;
     }
 
-	// return recovery time
     public override void use() {
         Rigidbody2D rb = character.gameObject.GetComponent<Rigidbody2D>();
         Vector2 fireballSpawn = new Vector2(rb.position.x + spawnX, rb.position.y);
@@ -31,4 +30,7 @@ public class FireBallAction : ActionPlayer {
         fireBall.power = power;
     }
 
+    public override void addPrefab(GameObject prefab) {
+        fireBallPrefab = prefab;
+    }
 }

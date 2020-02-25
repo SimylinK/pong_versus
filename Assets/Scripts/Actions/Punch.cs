@@ -39,8 +39,8 @@ public class Punch : MonoBehaviour {
 
             Ball ball = col.GetComponent<Ball>();
             Vector2 velocity = ball.getVelocity();
-            velocity.x += directionX * xPercentage * power;
-            velocity.y += directionY * yPercentage * power;
+            velocity.x = directionX * xPercentage * power;
+            velocity.y = directionY * yPercentage * power;
             ball.setVelocity(velocity);
 
             Destroy(gameObject);

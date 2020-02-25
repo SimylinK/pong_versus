@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PunchAction : ActionPlayer {
+public class PunchAction : ActionPress {
 
     public GameObject punchPrefab;
     public float spawnX;
@@ -11,12 +11,20 @@ public class PunchAction : ActionPlayer {
 
     public GameObject fireBall;
 
-    public PunchAction(int recoveryTime, GameObject punchPrefab, float spawnX, float power) 
-            : base(recoveryTime) {
+    public PunchAction(KeyCode actionKey, int recoveryTime, GameObject punchPrefab, float spawnX, float power) 
+            : base(actionKey, recoveryTime) {
         this.punchPrefab = punchPrefab;
         this.spawnX = spawnX;
         this.power = power;
     }
+
+
+    public PunchAction(int recoveryTime, float spawnX, float power) 
+            : base(recoveryTime) {
+        this.spawnX = spawnX;
+        this.power = power;
+    }
+
 
     public override void use() {
         Rigidbody2D rb = character.gameObject.GetComponent<Rigidbody2D>();
@@ -25,5 +33,19 @@ public class PunchAction : ActionPlayer {
         GameObject punchCreated = GameObject.Instantiate(punchPrefab, punchSpawn, Quaternion.identity);
         Punch punch = punchCreated.GetComponent<Punch>();
         punch.power = power;
-    } 
+    }
+
+    public void setPunchPrefab(GameObject punchPrefab) {
+        this.punchPrefab = punchPrefab;
+    }
+
+    public override void addPrefab(GameObject prefab) {
+        punchPrefab = prefab;
+    }
+
+    public override void setSide(CharacterSide side) {
+        if (side == CharacterSide.Right) {
+			spawnX *= -1;
+		}
+    }
 }

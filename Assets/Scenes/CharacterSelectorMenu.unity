@@ -254,6 +254,7 @@ MonoBehaviour:
     type: 2}
   punchLeft: {fileID: 1678283570408702, guid: e21e5361294de45d8b697eb3ee76f2db, type: 2}
   punchRight: {fileID: 1678283570408702, guid: 9fcfe2c5e93764c34baf900211bd42e0, type: 2}
+  guard: {fileID: 1022872897954692, guid: 53602c81df5614579a2f5a4bcb746f61, type: 2}
   normal: {fileID: 21300000, guid: 88963494192ee1d40a7a727234291157, type: 3}
   recovery: {fileID: 21300000, guid: 0f1f778348abfe94191b83bd1f6f820d, type: 3}
   ko: {fileID: 21300000, guid: c9071b4c29bdc0b4faad1b5fe31b0939, type: 3}

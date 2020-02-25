@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LifeSide : MonoBehaviour {
-
-    public CharacterSide side;
-    public GameSystem gameSystem;
+public class Guard : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -17,11 +14,15 @@ public class LifeSide : MonoBehaviour {
 		
 	}
 
-    void OnTriggerEnter2D(Collider2D col)
+	void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Ball")
+        if (col.gameObject.tag == "Projectile")
         {
-            gameSystem.score(side);
+            Destroy(col.gameObject);
         }
     }
+
+	public void destroy() {
+		Destroy(gameObject);
+	}
 }

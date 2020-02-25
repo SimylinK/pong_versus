@@ -7,6 +7,8 @@ public class Ball : MonoBehaviour {
     public float speedX = 0;
     public float speedY = 0;
 
+    public float accelerator = 1;
+
     private Rigidbody2D rb;
 
     // Use this for initialization
@@ -16,10 +18,12 @@ public class Ball : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        Vector3 position = this.transform.position;
+        /*Vector3 position = this.transform.position;
         position.x -= speedX * Time.deltaTime;
         position.y -= speedY * Time.deltaTime;
-        this.transform.position = position;
+        this.transform.position = position;*/
+
+        //accelerator += 0.01f;
     }
 
     public Vector2 getVelocity()
@@ -29,6 +33,6 @@ public class Ball : MonoBehaviour {
 
     public void setVelocity(Vector2 velocity)
     {
-        rb.velocity = velocity;
+        rb.velocity = velocity * accelerator;
     }
 }

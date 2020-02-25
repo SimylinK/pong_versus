@@ -49,8 +49,8 @@ public class Fighter : MonoBehaviour {
         this.GetComponent<SpriteRenderer>().sprite = normal;
 
         // Action initialization
-        action1 = new FireBallAction(20, fireBall, 1.1f, 5, 5);
-        action2 = new PunchAction(20, punch, 1.1f, 10);
+        action1 = new FireBallAction(KeyCode.P, 20, fireBall, 1.1f, 5, 5);
+        action2 = new PunchAction(KeyCode.L, 20, punch, 1.1f, 10);
     }
 
     void Update()
@@ -69,7 +69,7 @@ public class Fighter : MonoBehaviour {
     }
 
     private void useAction(ActionPlayer action) {
-            action.useAction();
+        //action.useAction();
     }
 
     // Update is called once per frame

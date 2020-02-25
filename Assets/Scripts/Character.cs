@@ -11,11 +11,13 @@ public class Character : MonoBehaviour {
 
     public CharacterSide side;
 
-    enum State { Normal, Recovery, Ko };
+    enum State { Normal, Recovery, Ko, Locked };
 	private State state;
+    public ActionPlayer actionLocking;
     public Sprite normal;
     public Sprite recovery;
     public Sprite ko;
+
 
     private int recoveryTime;
     private Vector2 pushBack;
@@ -28,8 +30,7 @@ public class Character : MonoBehaviour {
     public KeyCode action2Key = KeyCode.L;
 
     public float speed;
-    public ActionPlayer action1;
-    public ActionPlayer action2;
+    public List<ActionPlayer> actions;
 
     // Use this for initialization
     public void init() {
@@ -45,31 +46,34 @@ public class Character : MonoBehaviour {
 
     }
 
-
     void Update()
     {
-        if (state != State.Normal) { return; }
-
-
-        if (Input.GetKey(action1Key))
-        {
-            useAction(action1);
-        }
-
-        if (Input.GetKey(action2Key))
-        {
-            useAction(action2);
+        foreach (ActionPlayer action in actions) {
+            action.listener();
         }
     }
 
-    private void useAction(ActionPlayer action) {
-        action.useAction();
+    public bool canUseAction() {
+        if (state == State.Normal) {
+            return true;
+        }
+        return false;
     }
 
     public void startRecovery(int recoveryTime) {
         state = State.Recovery;
         this.recoveryTime = recoveryTime;
         this.GetComponent<SpriteRenderer>().sprite = recovery;
+    }
+
+    public void lockActions(ActionPlayer action) {
+        state = State.Locked;
+        actionLocking = action;
+    }
+
+    public void unlockActions() {
+        state = State.Normal;
+        actionLocking = null;
     }
 
 
@@ -96,6 +100,9 @@ public class Character : MonoBehaviour {
             return;
         }
 
+        if (state == State.Locked) {
+            return;
+        }
 
         rb.velocity = new Vector2(0,0);
 
@@ -117,8 +124,6 @@ public class Character : MonoBehaviour {
 
     public void hit(Vector2 pushBack, int recoveryTime)
     {
-        Debug.Log("HIT");
-
         //rb.isKinematic = false;
         state = State.Ko;
         this.GetComponent<SpriteRenderer>().sprite = ko;

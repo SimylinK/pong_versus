@@ -8,6 +8,7 @@ public class CreateFighter : MonoBehaviour {
 	public GameObject fireBallRight;
 	public GameObject punchLeft;
 	public GameObject punchRight;
+	public GameObject guard;
 
 	public Sprite normal;
     public Sprite recovery;
@@ -30,6 +31,7 @@ public class CreateFighter : MonoBehaviour {
 		float speedX = 5;
 		GameObject fireballPrefab = fireBallLeft;
 		GameObject punchPrefab = punchLeft;
+		GameObject guardPrefab = guard;
 
 		if (side == CharacterSide.Right) {
 			spawnX *= -1;
@@ -38,11 +40,14 @@ public class CreateFighter : MonoBehaviour {
 			punchPrefab = punchRight;
 		}
 
-		ActionPlayer action1 = new FireBallAction(20, fireballPrefab, spawnX, speedX, 5);
-        ActionPlayer action2 = new PunchAction(20, punchPrefab, spawnX, 10);
+		List<ActionPlayer> actions = new List<ActionPlayer>();
+		actions.Add(new FireBallAction(KeyCode.KeypadEnter, 20, fireballPrefab, spawnX, speedX, 5));
+        actions.Add(new PunchAction(KeyCode.KeypadPlus, 20, punchPrefab, spawnX, 10));
+		actions.Add(new GuardAction(KeyCode.KeypadMinus, guardPrefab, spawnX));
+
 
 		float speed = 0.2f;
-		CharacterAttributes fighter = new CharacterAttributes(side, speed, action1, action2, normal, recovery, ko);
+		CharacterAttributes fighter = new CharacterAttributes(side, speed, actions, normal, recovery, ko);
 
 		
 
