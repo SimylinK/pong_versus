@@ -15,7 +15,13 @@ public class GuardAction : ActionPressRelease {
         this.spawnX = spawnX;
     }
 
-	public override void press() {
+    public GuardAction(float spawnX)
+        : base()
+    {
+        this.spawnX = spawnX;
+    }
+
+    public override void press() {
         Rigidbody2D rb = character.gameObject.GetComponent<Rigidbody2D>();
         Vector2 guardSpawn = new Vector2(rb.position.x + spawnX, rb.position.y);
 
@@ -28,5 +34,13 @@ public class GuardAction : ActionPressRelease {
 
     public override void addPrefab(GameObject prefab) {
         guardPrefab = prefab;
+    }
+
+    public override void setSide(CharacterSide side)
+    {
+        if (side == CharacterSide.Right)
+        {
+            spawnX *= -1;
+        }
     }
 }

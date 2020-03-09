@@ -19,6 +19,14 @@ public class FireBallAction : ActionPress {
         this.power = power;
     }
 
+    public FireBallAction(int recoveryTime, float spawnX, float speedX, float power)
+            : base(recoveryTime)
+    {
+        this.spawnX = spawnX;
+        this.speedX = speedX;
+        this.power = power;
+    }
+
     public override void use() {
         Rigidbody2D rb = character.gameObject.GetComponent<Rigidbody2D>();
         Vector2 fireballSpawn = new Vector2(rb.position.x + spawnX, rb.position.y);
@@ -32,5 +40,14 @@ public class FireBallAction : ActionPress {
 
     public override void addPrefab(GameObject prefab) {
         fireBallPrefab = prefab;
+    }
+
+    public override void setSide(CharacterSide side)
+    {
+        if (side == CharacterSide.Right)
+        {
+            spawnX *= -1;
+            speedX *= -1;
+        }
     }
 }

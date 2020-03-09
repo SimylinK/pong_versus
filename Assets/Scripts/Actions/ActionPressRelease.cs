@@ -11,7 +11,12 @@ public abstract class ActionPressRelease : ActionPlayer {
         this.actionKey = actionKey;
     }
 
-	public override void listener() {
+    public ActionPressRelease()
+        : base()
+    {
+    }
+
+    public override void listener() {
 		if (Input.GetKeyDown(actionKey))
         {
             this.useActionPress();
