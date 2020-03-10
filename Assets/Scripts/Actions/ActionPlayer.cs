@@ -6,7 +6,10 @@ public abstract class ActionPlayer {
 
 	public Character character;
 
-	public abstract void listener();
+	public virtual void listener()
+    {
+        return;
+    }
 
 	public virtual bool hasInput() {
 		return false;
@@ -22,6 +25,11 @@ public abstract class ActionPlayer {
 	}
 
 	public virtual void setSide(CharacterSide side) {
+        return;
+    }
+
+    public virtual void init()
+    {
         return;
     }
 }
